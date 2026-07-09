@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống phân tích và cân bảng tin nhắn</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for crisp Vietnamese reading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Top Navigation Menu -->
+        <header class="navbar-container">
+            <nav class="top-nav">
+                <a href="#" class="nav-link active" data-tab="tinhtoan">Tính toán</a>
+                <a href="#" class="nav-link" data-tab="thongke">Thống kê</a>
+                <a href="#" class="nav-link" data-tab="tudien">Từ điển</a>
+                <a href="#" class="nav-link danger">Tắt</a>
+            </nav>
+        </header>
+
+        <!-- Main Workspace Container -->
+        <main class="workspace">
+            <!-- TÍNH TOÁN TAB (Active by default) -->
+            <section class="tab-content active" id="tinhtoan-pane">
+                <!-- Top Parameter Form Grid -->
+                <div class="parameter-grid">
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label>Khách:</label>
+                            <input type="text" id="param-khach" value="Khách 1" placeholder="Nhập tên khách">
+                        </div>
+                        <div class="form-group col-4">
+                            <label>Ngày:</label>
+                            <input type="text" id="param-ngay" value="09/07/2026">
+                        </div>
+                        <div class="form-group col-4 link-container">
+                            <a href="#" class="inline-link" onclick="alert('Đang mở danh sách khách hàng...')">Danh sách khách hàng</a>
+                        </div>
+                    </div>
+
+                    <div class="form-row math-params">
+                        <div class="form-group">
+                            <label>Đ thu:</label>
+                            <input type="number" step="0.01" id="param-d-thu" value="0.72">
+                        </div>
+                        <div class="form-group">
+                            <label>L thu:</label>
+                            <input type="number" step="0.01" id="param-l-thu" value="21.70">
+                        </div>
+                        <div class="form-group">
+                            <label>X nháy thu:</label>
+                            <input type="number" id="param-x-nhay-thu" value="1">
+                        </div>
+                    </div>
+
+                    <div class="form-row math-params">
+                        <div class="form-group">
+                            <label>X 2 thu:</label>
+                            <input type="number" step="0.01" id="param-x2-thu" value="0.60">
+                        </div>
+                        <div class="form-group">
+                            <label>X 3 thu:</label>
+                            <input type="number" step="0.01" id="param-x3-thu" value="0.60">
+                        </div>
+                        <div class="form-group">
+                            <label>X 4 thu:</label>
+                            <input type="number" step="0.01" id="param-x4-thu" value="0.60">
+                        </div>
+                    </div>
+
+                    <div class="form-row math-params">
+                        <div class="form-group">
+                            <label>BC thu:</label>
+                            <input type="number" step="0.01" id="param-bc-thu" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Đ trả thưởng:</label>
+                            <input type="number" id="param-d-tra" value="70">
+                        </div>
+                        <div class="form-group">
+                            <label>BC trả thưởng:</label>
+                            <input type="number" id="param-bc-tra" value="400">
+                        </div>
+                    </div>
+
+                    <div class="form-row math-params">
+                        <div class="form-group">
+                            <label>L trả thưởng:</label>
+                            <input type="number" id="param-l-tra" value="80">
+                        </div>
+                        <div class="form-group">
+                            <label>X 2 trả thưởng:</label>
+                            <input type="number" id="param-x2-tra" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label>X 3 trả thưởng:</label>
+                            <input type="number" id="param-x3-tra" value="40">
+                        </div>
+                    </div>
+
+                    <div class="form-row math-params">
+                        <div class="form-group">
+                            <label>X 4 trả thưởng:</label>
+                            <input type="number" id="param-x4-tra" value="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Áp Mạn Trả thưởng:</label>
+                            <input type="number" id="param-ap-man" value="0">
+                        </div>
+                        <div class="form-group inline-radios">
+                            <label>Làm tròn tiền</label>
+                            <div class="radio-options">
+                                <label><input type="radio" name="lam-tron" value="yes"> Có</label>
+                                <label><input type="radio" name="lam-tron" value="no" checked> Không</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row extra-options">
+                        <div class="form-group inline-radios">
+                            <div class="radio-options main-options">
+                                <label><input type="radio" name="play-type" value="khach" checked> Khách Đánh</label>
+                                <label><input type="radio" name="play-type" value="chuyen"> Chuyển Chủ</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Tỉ lệ thầu:</label>
+                            <select id="param-ti-le-thau">
+                                <option value="100">100</option>
+                                <option value="90">90</option>
+                                <option value="80">80</option>
+                                <option value="70">70</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Double Message Panel (Before / After Analysis) -->
+                <div class="message-section">
+                    <div class="msg-box-wrapper left-box">
+                        <span class="box-label">Tin nhắn trước khi phân tích:</span>
+                        <div class="textarea-container">
+                            <div class="line-numbers" id="ln-before"></div>
+                            <textarea id="msg-before" spellcheck="false" placeholder="Nhập tin nhắn khách gửi tại đây..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Action Transfer Buttons between textareas -->
+                    <div class="middle-controls">
+                        <button class="ctrl-btn" onclick="transferRightToLeft()" title="Sao chép ngược lại">&lt; -</button>
+                        <button class="ctrl-btn active" onclick="normalizeMessage()" title="Chuẩn hóa phân tích tin nhắn">v</button>
+                    </div>
+
+                    <div class="msg-box-wrapper right-box">
+                        <span class="box-label">Tin nhắn sau khi phân tích:</span>
+                        <div class="textarea-container">
+                            <div class="line-numbers" id="ln-after"></div>
+                            <textarea id="msg-after" readonly spellcheck="false"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Process Toolbar -->
+                <div class="process-toolbar">
+                    <button class="action-btn" onclick="normalizeMessage()">Chuẩn Hóa Tin</button>
+                    <button class="action-btn" id="btn-balance-step" onclick="runBalancingStep(false)">Cân Chuyển Lần Đầu</button>
+                    <button class="action-btn" id="btn-balance-percent" onclick="runBalancingStep(true)">Cân Chuyển Theo % (Lần 1)</button>
+                    <button class="action-btn primary" onclick="openSettlementModal()" style="background-color: #dd6b20; border-color: #dd6b20; color: white;">Tính Tiền</button>
+                </div>
+
+                <!-- Transfer Output Dashboard -->
+                <div class="transfer-dashboard">
+                    <div class="transfer-box-row">
+                        <div class="transfer-box">
+                            <span class="transfer-label">Bảng cân chuyển Đề:</span>
+                            <textarea id="transfer-de-output" placeholder="Kết quả cân chuyển Đề sẽ hiển thị ở đây..."></textarea>
+                        </div>
+                        <div class="transfer-box">
+                            <span class="transfer-label">Bảng cân chuyển Lô:</span>
+                            <textarea id="transfer-lo-output" placeholder="Kết quả cân chuyển Lô sẽ hiển thị ở đây..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="limits-toolbar">
+                        <div class="limit-input">
+                            <label>Điểm D ăn tối đa:</label>
+                            <input type="number" id="limit-d-max" value="15">
+                        </div>
+                        <div class="limit-input">
+                            <label>Điểm L ăn tối đa:</label>
+                            <input type="number" id="limit-l-max" value="15">
+                        </div>
+                        <div class="limit-input">
+                            <label>BC ăn tối đa:</label>
+                            <input type="number" id="limit-bc-max" placeholder="Trống">
+                        </div>
+                        <div class="limit-input">
+                            <label>% Giữ lại:</label>
+                            <input type="number" id="limit-keep-percent" placeholder="Trống">
+                        </div>
+                        <div class="limit-input text-unit">
+                            <label>Đơn vị Đề N/K/D:</label>
+                            <input type="text" id="unit-de" value="N">
+                        </div>
+                        <div class="limit-input text-unit">
+                            <label>Đơn vị Lô N/K/D:</label>
+                            <input type="text" id="unit-lo" value="D">
+                        </div>
+                        <div class="limit-actions">
+                            <button class="limit-btn danger" onclick="resetBalancing()">Xóa Dữ Liệu Để Cân Chuyển Từ Đầu</button>
+                            <span class="balance-counter" id="balance-counter-label">Số Lần Đã Cân Chuyển = 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multi-column Statistical Tables -->
+                <div class="stats-tables-container" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stats-col">
+                        <div class="stats-col-header" id="header-d">Thống kê D (0 số)</div>
+                        <div class="stats-col-body" id="stat-d-list">
+                            <!-- JS loaded list -->
+                        </div>
+                    </div>
+                    <div class="stats-col">
+                        <div class="stats-col-header" id="header-l">TK L (0 số)</div>
+                        <div class="stats-col-body" id="stat-l-list">
+                            <!-- JS loaded list -->
+                        </div>
+                    </div>
+                    <div class="stats-col">
+                        <div class="stats-col-header" id="header-bc">TK BC (0 số)</div>
+                        <div class="stats-col-body" id="stat-bc-list">
+                            <!-- JS loaded list -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- THỐNG KÊ TAB -->
+            <section class="tab-content" id="thongke-pane">
+                <div class="card">
+                    <h2>Báo cáo tổng hợp số liệu</h2>
+                    <p style="color: #666; margin-top: 10px;">Chức năng hiển thị biểu đồ phân tích và doanh thu chi tiết theo ngày.</p>
+                    <div style="border: 1px dashed #ccc; padding: 40px; text-align: center; margin-top: 20px; border-radius: 6px;">
+                        Đang chờ nạp dữ liệu phân tích...
+                    </div>
+                </div>
+            </section>
+
+
+
+            <!-- TỪ ĐIỂN TAB -->
+            <section class="tab-content" id="tudien-pane">
+                <!-- Mode Selector -->
+                <div class="dict-mode-selector" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 15px;">
+                    <button class="limit-btn active" id="btn-dict-table" onclick="setDictMode('table')">Bảng viết tắt</button>
+                    <button class="limit-btn" id="btn-dict-raw" onclick="setDictMode('raw')">Văn bản thô (Raw)</button>
+                </div>
+
+                <!-- Table View Mode -->
+                <div class="tudien-layout" id="dict-table-view">
+                    <!-- Add Dictionary Item -->
+                    <div class="card">
+                        <h3>Cấu hình Từ điển Viết tắt</h3>
+                        <p style="color: #666; font-size: 13px; margin-bottom: 15px;">Dùng để định nghĩa các thuật ngữ viết tắt trong tin nhắn thành các chuỗi số tương ứng.</p>
+                        <form id="add-dict-form" onsubmit="event.preventDefault(); addDictWord();" style="display: flex; flex-direction: column; gap: 12px;">
+                            <div>
+                                <label style="display: block; font-size: 13px; margin-bottom: 5px; font-weight: 500;">Từ viết tắt:</label>
+                                <input type="text" id="dict-key" required placeholder="Ví dụ: kep lech">
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 13px; margin-bottom: 5px; font-weight: 500;">Dàn số tương ứng (Cách nhau bằng dấu phẩy):</label>
+                                <textarea id="dict-val" rows="3" required placeholder="Ví dụ: 05, 50, 16, 61, 27, 72, 38, 83, 49, 94"></textarea>
+                            </div>
+                            <button type="submit" class="action-btn">Lưu cấu hình</button>
+                        </form>
+                    </div>
+
+                    <!-- Dictionary List View -->
+                    <div class="card">
+                        <h3>Danh mục từ viết tắt hiện tại</h3>
+                        <div class="search-bar" style="margin: 15px 0;">
+                            <input type="text" id="dict-search" placeholder="Tìm kiếm từ viết tắt..." oninput="filterDict()">
+                        </div>
+                        <div class="dict-list-wrapper">
+                            <table class="dict-table">
+                                <thead>
+                                    <tr>
+                                        <th>Từ viết tắt</th>
+                                        <th>Chuỗi số thay thế</th>
+                                        <th style="width: 80px; text-align: center;">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dict-table-body">
+                                    <!-- Dynamic rows from JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Raw Editor Mode -->
+                <div class="card" id="dict-raw-view" style="display: none;">
+                    <h3>Chỉnh sửa Văn bản Thô (Raw nhaptat.txt)</h3>
+                    <p style="color: #666; font-size: 13px; margin-bottom: 15px;">Mỗi dòng biểu diễn một định nghĩa dưới dạng: <strong>từ_viết_tắt=chuỗi_số</strong>. Ví dụ: <code>k=00.11.22</code></p>
+                    <textarea id="dict-raw-textarea" rows="20" style="width: 100%; font-family: monospace; font-size: 14px; padding: 12px; border: 1px solid #cbd5e0; border-radius: 6px; resize: vertical; outline: none; box-sizing: border-box; line-height: 1.5;" placeholder="key=value"></textarea>
+                    <div style="margin-top: 15px; text-align: right;">
+                        <button class="action-btn" onclick="saveRawDict()" style="background-color: #319795; border-color: #319795; color: white;">Lưu Văn Bản Thô Lên Máy Chủ</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Settlement Modal -->
+    <div class="modal-overlay" id="settlement-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3>Nhập Kết Quả Xổ Số & Tính Toán Thanh Toán</h3>
+                <button class="close-modal-btn" onclick="closeSettlementModal()">&times;</button>
+            </header>
+            
+            <!-- Step 1: Draw Results Input Form -->
+            <div class="modal-section" id="modal-step-results">
+                <div class="fetch-helper-bar" style="margin-bottom: 20px; text-align: right;">
+                    <button type="button" class="modal-action-btn primary" id="btn-fetch-results" onclick="fetchLotteryResults()" style="display: inline-flex; align-items: center; gap: 6px; background-color: #2b6cb0; border-color: #2b6cb0;">
+                        <i data-lucide="refresh-cw" style="width: 14px; height: 14px;"></i>
+                        Tự động lấy kết quả miền Bắc từ minhngoc.net
+                    </button>
+                </div>
+
+                <form id="draw-results-form" onsubmit="event.preventDefault(); calculateSettlement();" class="results-input-form">
+                    <div class="results-input-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <div class="form-group-vertical">
+                            <label>Kết quả Đề (2 số):</label>
+                            <input type="text" id="draw-de" value="85" maxlength="2" required>
+                        </div>
+                        <div class="form-group-vertical">
+                            <label>Kết quả 3 Càng (3 số):</label>
+                            <input type="text" id="draw-3c" value="185" maxlength="3" required>
+                        </div>
+                    </div>
+                    <div class="form-group-vertical" style="margin-top: 15px;">
+                        <label>Dàn kết quả Lô (27 giải lô, cách nhau bằng khoảng trắng/dấu phẩy):</label>
+                        <textarea id="draw-lo" rows="3" required>85 49 61 94 13 92 63 69 91 60 00 10 95 84 19 22 68 58 73 40 49 24 91 13 05 64 46</textarea>
+                    </div>
+                    <div class="modal-footer" style="margin-top: 20px;">
+                        <button type="submit" class="modal-action-btn primary" style="background-color: #dd6b20; border-color: #dd6b20;">Tính toán kết quả thắng/thua</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 2: Settlement Report Screen -->
+            <div class="modal-section" id="modal-step-report" style="display: none;">
+                <!-- Settlement Results Header showing raw numbers -->
+                <div class="settlement-results-header">
+                    <div>Đề: <span class="red-highlight" id="lbl-res-de">85</span></div>
+                    <div>3 Càng: <span class="red-highlight" id="lbl-res-3c">185</span></div>
+                    <div>Lô: <span class="red-highlight" id="lbl-res-lo" style="font-size: 11px;">--</span></div>
+                </div>
+
+                <div class="settlement-report-columns">
+                    <!-- Column 1: De Bets list -->
+                    <div class="report-column">
+                        <div class="column-title">De</div>
+                        <div class="column-body" id="col-rep-de">
+                            <!-- JS loaded values -->
+                        </div>
+                        <div class="column-footer" id="col-rep-de-foot">2520k / 20k</div>
+                    </div>
+                    
+                    <!-- Column 2: Financial Calculation Panel -->
+                    <div class="report-column balance-panel">
+                        <div class="column-title">Kết toán tài chính</div>
+                        <div class="balance-calculation-body">
+                            <div class="calc-row">
+                                <span>De</span>
+                                <span>:<span id="res-calc-de-bet">2520k</span> = <span id="res-calc-de-cost">1814.4</span></span>
+                            </div>
+                            <div class="calc-row">
+                                <span>Lo</span>
+                                <span>:<span id="res-calc-lo-bet">125d</span> = <span id="res-calc-lo-cost">2712.5</span></span>
+                            </div>
+                            <div class="divider-line"></div>
+                            <div class="calc-row bold">
+                                <span>Tổng cộng:</span>
+                                <span id="res-calc-total-cost">4,527</span>
+                            </div>
+                            <div class="calc-row bold" style="margin-top: 5px;">
+                                <span>Giải thưởng:</span>
+                                <span>- <span id="res-calc-prize">4,600</span></span>
+                            </div>
+                            <div class="divider-line"></div>
+                            <div class="net-result-box">
+                                <div class="net-sign">= <span id="res-calc-net">-73</span></div>
+                                <div class="net-lbl">Khách : <span id="res-calc-client-net" class="red-highlight">73</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Lo Bets list -->
+                    <div class="report-column">
+                        <div class="column-title">Lo</div>
+                        <div class="column-body" id="col-rep-lo">
+                            <!-- JS loaded values -->
+                        </div>
+                        <div class="column-footer" id="col-rep-lo-foot">125d / 40d</div>
+                    </div>
+
+                    <!-- Column 4: 3 Cang bets list -->
+                    <div class="report-column">
+                        <div class="column-title">De Ba Cang</div>
+                        <div class="column-body" id="col-rep-3c">
+                            <!-- JS loaded values -->
+                        </div>
+                        <div class="column-footer" id="col-rep-3c-foot">0k / 0k</div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer" style="margin-top: 15px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+                    <button class="modal-action-btn" onclick="backToResultsInput()">Nhập lại kết quả xổ số</button>
+                    <button class="modal-action-btn primary" onclick="closeSettlementModal()">Hoàn tất</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
